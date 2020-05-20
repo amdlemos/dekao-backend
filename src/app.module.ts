@@ -1,15 +1,28 @@
-import { AppConfigModule } from './config/app/config.module';
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { UsersModule } from './modules/users/users.module';
+
+import { Module, ValidationPipe } from '@nestjs/common';
 import { MongoModule } from 'nest-mongodb';
+import { ConfigModule } from '@nestjs/config';
+import { APP_PIPE } from '@nestjs/core';
+
 
 @Module({
-  imports: [   
-    AppConfigModule,
-    MongoModule.forRoot('mongodb://127.0.0.1:27017', 'dekaoCosmeticos', { useUnifiedTopology: true }), 
+  imports: [
+    ConfigModule.forRoot(),
+    MongoModule.forRoot(process.env.MONGO_URI, process.env.DB_NAME,
+      { useUnifiedTopology: true }
+    ),
+    UsersModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [
+     // Adiciona o pipe de validação em um nível global.
+    // Antes dos controllers receber o request será 
+    // feita a validação conforme annotations dos modelos.       
+    {
+      provide: APP_PIPE,
+      useClass: ValidationPipe
+    },    
+  ],
 })
 export class AppModule { }
