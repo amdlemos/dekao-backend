@@ -1,7 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import { ConfigService } from '@nestjs/config';
 
 import { AppModule } from './app.module';
 
@@ -12,12 +11,7 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   // configura o swagger
-  swaggerConfig(app);
-
-  // Get app config for cors settings and starting the app.
-  const appConfig: ConfigService = app.get('ConfigService');  
-  const port = appConfig.get('port');
-  
+  swaggerConfig(app);    
 
   // TODO: create log class
   // custom Middleware for logging the each request going to the API
@@ -25,11 +19,12 @@ async function bootstrap() {
     if (req.body) console.info('Body:', req.body);
     if (req.params) console.info('Params:', req.params);
     if (req.query) console.info('Query:',req.query);
-    console.info(`Received a ${req.method} request from ${req.ip} for                ${req.url}`);
+    console.info(`Received a ${req.method} request from ${req.ip} for ${req.url}`);
     next();
   });
 
   // inicia a aplicação    
+  const port = process.env.PORT;
   await app.listen(port, () => {
     console.log('\x1b[33m', `Listening on port ${port}.`)
   });
