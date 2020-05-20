@@ -17,13 +17,7 @@ export class UsersController {
     @Get()
     async getAllUsers(): Promise<User[]> {
         return await this._usersDAO.getAllUsers();
-    }
-
-    // @Get(':lastUpdate')
-    // async getUsersToUpdateDbClient(@Param('lastUpdate') lastUpdate: string) {        
-    //     let date = moment(lastUpdate).toDate();
-    //     return await this._usersDAO.getUsersToUpdateIndexedDb(date);       
-    // }
+    }   
 
     @Get(':_id')
     async getById(@Param('_id') id: string) {
