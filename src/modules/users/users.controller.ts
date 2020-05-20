@@ -1,7 +1,7 @@
 import { UsersService } from './users.service';
 import { Controller, Get, Post, Body, UsePipes, ValidationPipe, Delete, Param, ParseIntPipe, Put } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { UsersDao } from '../users/users.dao';
+import { UsersDao } from './users.dao';
 import { User } from '../../models/user.model';
 //import { validate } from 'class-validator';
 import * as moment from 'moment';
