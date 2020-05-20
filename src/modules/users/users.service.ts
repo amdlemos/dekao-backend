@@ -39,18 +39,22 @@ export class UsersService {
 
         const newUser = new User();
         newUser.username = userToRegister.username;
-        newUser.email = userToRegister.email;
-        newUser.password = await this.hashPassword(userToRegister.password);
-        console.log('newUser', newUser.password);
+        newUser.email = userToRegister.email;        
+        newUser.password = await this.hashPassword(userToRegister.password);        
+
+        if(!newUser.password) {
+            let error = 'Erro ao criar usuário';
+            return error;
+        }
+
         return await this.userDao.addUser(newUser);
     }
 
     private async hashPassword(password: string): Promise<string | undefined> {
         const saltRounds = 10;
-        const salt = await bcrypt.genSaltSync(saltRounds);
-        const hash = await bcrypt.hashSync(password, salt);
+        const salt = bcrypt.genSaltSync(saltRounds);
+        const hash = bcrypt.hashSync(password, salt);        
         
-        console.log(hash);
         return hash;
     }
 
