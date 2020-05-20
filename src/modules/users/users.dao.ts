@@ -8,7 +8,7 @@ import { User } from '../../models/user.model';
  * TODO: Specify the class.
  */
 @Injectable()
-export class UsersDao {
+export class UsersDao {    
     private readonly UsersCollection: mongo.Collection;
 
     constructor(@InjectDb() private readonly db: mongo.Db) {
@@ -75,7 +75,7 @@ export class UsersDao {
      */
     async getUserById(userId: string) {
         try {
-            let user = await this.UsersCollection.findOne({_id: new ObjectId(userId)})
+            let user = await this.UsersCollection.findOne({_id: new ObjectId(userId)});
             
             return user;
         } catch (e) {
@@ -85,6 +85,10 @@ export class UsersDao {
 
     async getUserByUsername(username: string): Promise<User> {
         return await this.UsersCollection.findOne({username: username});        
+    }
+
+    async getUserByEmail(email: string): Promise<User> {
+        return await this.UsersCollection.findOne({email: email});   
     }
 
     /**
