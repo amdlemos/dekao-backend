@@ -1,6 +1,8 @@
 import { Login } from './../../models/login.model';
 import { UsersService } from './../users/users.service';
 import { Injectable } from "@nestjs/common";
+import { User } from 'src/models/user.model';
+import { JwtService } from '@nestjs/jwt';
 
 const bcrypt = require('bcrypt');
 
@@ -8,7 +10,8 @@ const bcrypt = require('bcrypt');
 export class AuthService {
 
     constructor(
-        private readonly _usersService: UsersService
+        private readonly _usersService: UsersService,
+        private _jwtService: JwtService,
         ) {
         
     }
@@ -24,9 +27,16 @@ export class AuthService {
 
         if(isMatch){
             //TODO: gera e retorna o token.
-            return true;
+            return await this.genereteToken(user);
         }
 
         return false;
+    }
+
+    private async genereteToken(user: User){
+        const payload = { username: user.username, sub: user._id };
+        return {
+            access_token: this._jwtService.sign(payload)
+        };
     }
 }

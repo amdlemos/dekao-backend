@@ -1,6 +1,6 @@
 import { Module, ValidationPipe } from '@nestjs/common';
 import { MongoModule } from 'nest-mongodb';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_PIPE } from '@nestjs/core';
 
 import { AuthModule } from './modules/auth/auth.module';
@@ -24,6 +24,7 @@ import { UsersModule } from './modules/users/users.module';
       provide: APP_PIPE,
       useClass: ValidationPipe
     },    
+    
   ],
 })
 export class AppModule { }
