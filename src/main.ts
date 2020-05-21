@@ -50,10 +50,10 @@ function swaggerConfig(app: NestExpressApplication) {
     .setTitle('Dekão Cosméticos')
     .setDescription('')
     .setVersion('1.0')
-    // .addSecurity('bearer', {
-    //   type: 'http',
-    //   scheme: 'bearer'
-    // })
+    .addSecurity('bearer', {
+      type: 'http',
+      scheme: 'bearer'
+    })
     .build();
 
   const swaggerDocument = SwaggerModule.createDocument(app, swaggerOptions);

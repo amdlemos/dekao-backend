@@ -1,11 +1,14 @@
-import { Controller, Get, Param } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { Controller, Get, Param, UseGuards } from '@nestjs/common';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { UsersDao } from './users.dao';
 import * as moment from 'moment';
 import { UsersService } from './users.service';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 
 @ApiTags('users-sync')
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard)
 @Controller('userssync')
 export class UsersSyncController {
     constructor(
