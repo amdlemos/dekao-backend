@@ -16,7 +16,7 @@ import { UsersModule } from '../users/users.module';
         ConfigModule.forRoot(),
         JwtModule.register({
             secret: process.env.SECRET,
-            signOptions: { expiresIn: '60s' },
+            signOptions: { expiresIn: '1800s' },
           }),],
     providers: [AuthService, JwtStrategy],    
     exports: []

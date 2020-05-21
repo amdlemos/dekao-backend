@@ -10,6 +10,7 @@ export class AuthController {
 
     @Post('/login')
     async login(@Body() login: Login) {
+        console.log('Login:', login)
         return await this._authService.login(login);
     }
 
