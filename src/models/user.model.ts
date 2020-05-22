@@ -30,8 +30,6 @@ export class User {
    
     createdDate: Date; 
     lastUpdate: Date;
-
-    
 }
 
 export class UserFrontend {

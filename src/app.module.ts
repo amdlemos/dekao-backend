@@ -5,6 +5,8 @@ import { APP_PIPE } from '@nestjs/core';
 
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
+import { CustomersModule } from './modules/customers/customers.module';
+
 
 @Module({
   imports: [
@@ -14,8 +16,8 @@ import { UsersModule } from './modules/users/users.module';
     ),
     UsersModule,
     AuthModule,
-  ],
-  controllers: [],
+    CustomersModule,
+  ],  
   providers: [
      // Adiciona o pipe de validação em um nível global.
     // Antes dos controllers receber o request será 

@@ -34,24 +34,7 @@ export class UsersDao {
         }
 
     }
-
-    async bulkUser(users: User[]) {
-        try {
-            this.UsersCollection.insertMany(users);
-        } catch (e) {
-            return {error: e};
-        }
-
-    }
-
-    async bulkDeleteUser(users: User[]) {
-        try {
-            this.UsersCollection.deleteMany(users);
-        } catch (e) {
-            return {error: e};
-        }
-
-    }
+ 
 
     /**
      * Deletes a user from the `users` collection.
@@ -137,6 +120,24 @@ export class UsersDao {
             throw new HttpException ({status: '', error: ''}, HttpStatus.BAD_REQUEST);
         }
         
+    }
+
+    async bulkUser(users: User[]) {
+        try {
+            this.UsersCollection.insertMany(users);
+        } catch (e) {
+            return {error: e};
+        }
+
+    }
+
+    async bulkDeleteUser(users: User[]) {
+        try {
+            this.UsersCollection.deleteMany(users);
+        } catch (e) {
+            return {error: e};
+        }
+
     }
 }
 
