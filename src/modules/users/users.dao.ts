@@ -23,8 +23,7 @@ export class UsersDao {
     async addUser(user: User) {
         try {
             user.createdDate = new Date;
-            user.lastUpdate = new Date;
-            console.log(user.lastUpdate);
+            user.lastUpdate = new Date;            
             var dbResponse = await this.UsersCollection.insertOne(user);
             
             return  { success: dbResponse.insertedCount > 0, _id: dbResponse.insertedId, };            
@@ -80,6 +79,7 @@ export class UsersDao {
      */
     async updateOneUser(user: User) {
         try {            
+            console.log('Update user:', user);
             return await this.UsersCollection.updateOne(                
                 // match by id
                 { _id: new ObjectId(user._id)},
@@ -92,7 +92,7 @@ export class UsersDao {
                 });
         } catch (e) {
             console.error(e);
-            return { error: 'Não foi possível excluir o usuário.'}
+            throw new HttpException('Não foi possível excluir o usuário.', HttpStatus.INTERNAL_SERVER_ERROR)            
         }
     }
 

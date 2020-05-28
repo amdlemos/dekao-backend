@@ -1,3 +1,4 @@
+import { HttpException, HttpStatus } from '@nestjs/common';
 import { Injectable } from '@nestjs/common';
 
 import { UsersDao } from './users.dao';
@@ -25,28 +26,23 @@ export class UsersService {
 
     async register(userToRegister: User) : Promise<any> {
         let user  = await this.findOneByEmail(userToRegister.email);
-        
+        let error = '';
         if(user){
-            let error = 'Email já está em uso.';
-            return error;
+            error = 'Este email ja está em uso. Tente outro'
+            throw new HttpException(error, HttpStatus.BAD_REQUEST)
         }
 
         user = await this.findOneByUsername(userToRegister.username);
         if(user){
-            let error = 'Nome de usuário já está em uso.';
-            return error;
+            error = 'Nome de usuário já está em uso. Tente outro.';
+            throw new HttpException(error, HttpStatus.BAD_REQUEST)
         }
 
         const newUser = new User();
         newUser.username = userToRegister.username;
         newUser.email = userToRegister.email;        
         newUser.password = await this.hashPassword(userToRegister.password);        
-
-        if(!newUser.password) {
-            let error = 'Erro ao criar usuário';
-            return error;
-        }
-
+     
         return await this.userDao.addUser(newUser);
     }
 

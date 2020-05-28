@@ -23,6 +23,7 @@ export class User {
     @ApiProperty()
     @IsEmail({}, {message: 'Email inválido.'})
     @IsNotEmpty({ message: 'Email é obrigatório.'})
+    @MaxLength(120, { message: 'Email deve conter no máximo 120 caracteres.'})
     email: string;
     
     @ApiProperty()

@@ -6,6 +6,7 @@ import { CustomersSyncController } from './customers-sync.controller';
 
 @Module({
   controllers: [CustomersController, CustomersSyncController],
-  providers: [CustomersService, CustomersDao]
+  providers: [CustomersService, CustomersDao],
+  exports: [CustomersService, CustomersDao]
 })
 export class CustomersModule {}

@@ -1,6 +1,6 @@
 import { Login } from './../../models/login.model';
 import { UsersService } from './../users/users.service';
-import { Injectable } from "@nestjs/common";
+import { Injectable, HttpStatus, HttpException } from "@nestjs/common";
 import { User } from 'src/models/user.model';
 import { JwtService } from '@nestjs/jwt';
 
@@ -18,19 +18,22 @@ export class AuthService {
 
     async login(login: Login) {
         const user = await this._usersService.findOneByUsername(login.username);
+        let error = '';
         if(!user){
-            let error = 'Usuário não cadastrado';
-            return error;
+            error = 'Usuário inválido.';
+            throw new HttpException(error, HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
         const isMatch = bcrypt.compareSync(login.password, user.password);
 
-        if(isMatch){
+        if(!isMatch){
             //TODO: gera e retorna o token.
-            return await this.genereteToken(user);
+            error = 'Senha inválida.'
+            throw new HttpException(error, HttpStatus.UNAUTHORIZED);
+            
         }
 
-        return false;
+        return await this.genereteToken(user);
     }
 
     private async genereteToken(user: User){

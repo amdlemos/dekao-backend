@@ -3,6 +3,7 @@ import { Injectable, HttpException, HttpStatus } from "@nestjs/common";
 import { InjectDb } from 'nest-mongodb';
 import { ObjectId } from 'mongodb';
 import { Customer } from 'src/models/customer.model';
+import { STATUS_CODES } from 'http';
 
 /**
  * TODO: Specify the class.
@@ -30,7 +31,7 @@ export class CustomersDao {
             return  { success: dbResponse.insertedCount > 0, _id: dbResponse.insertedId, };            
         } catch (e){
             console.error(e);
-            return { error: e };
+            throw new HttpException(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }
@@ -40,7 +41,7 @@ export class CustomersDao {
             return await this.CustomersCollection.find().toArray();
         }catch (e){
             console.error(e);
-            throw new HttpException ({status: '', error: ''}, HttpStatus.BAD_REQUEST);
+            throw new HttpException(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -50,15 +51,45 @@ export class CustomersDao {
                 { _id: new ObjectId(customer._id)},
                 {
                     $set: {
-                        // TODO: implementar edit
+                       name: customer.name,
+                       fantasyName: customer.fantasyName,                       
+                       lastUpdate: customer.lastUpdate,
+                       email: customer.email,
+                       subscription: customer.subscription,
+                       phone: customer.phone,                       
+                       sellerCode: customer.sellerCode,
+                       sellerName: customer.sellerName,
+                       'address1th.zipcode': customer.address1th.zipcode,
+                       'address1th.street': customer.address1th.street,
+                       'address1th.state_code': customer.address1th.state_code,
+                       'address1th.number': customer.address1th.number,
+                       'address1th.neighborhood': customer.address1th.neighborhood,
+                       'address1th.complement': customer.address1th.complement,
+                       'address1th.city_code': customer.address1th.city_code,
                     }
                 }
             )
 
         } catch (e) {
             console.error(e);
-            return { error: 'Não foi possível excluir o usuário.'}
-        }        
-        throw new Error("Method not implemented.");
+
+            throw new HttpException('Não foi possível editar o usuário.',HttpStatus.INTERNAL_SERVER_ERROR);            
+        }                
     }    
+
+     /**
+     * Deletes a customer from the `customers` collection.
+     * @param {CustomerId} userId - The id of the user to delete.
+     * @returns {DAOResponse} Returns either a "success" or an "error" Object.     
+     */
+    async delete(customerId: string) {
+        try {
+            return await this.CustomersCollection.deleteOne({_id: new ObjectId(customerId)});
+            
+        } catch (e) {
+            console.error(e);
+            throw new HttpException('Não foi possível excluir o usuário.',HttpStatus.INTERNAL_SERVER_ERROR);                        
+        }
+    }
+
 }

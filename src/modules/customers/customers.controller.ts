@@ -1,5 +1,5 @@
 import { CustomersDao } from './customers.dao';
-import { Controller, Post, Body, UseGuards, Get, Put } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Get, Put, Delete, Param } from '@nestjs/common';
 import { Customer } from 'src/models/customer.model';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
@@ -25,7 +25,12 @@ export class CustomersController {
 
     @Put()
     async edit(@Body() customer: Customer){
-        //return await this._customerDao.edit();
+        return await this._customerDao.edit(customer);
+    }
+
+    @Delete(':_id')
+    async delete(@Param('_id') id: string) {       
+        return await this._customerDao.delete(id);
     }
 
 }
