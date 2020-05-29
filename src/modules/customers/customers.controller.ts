@@ -23,6 +23,13 @@ export class CustomersController {
         return await this._customerDao.getAll();
     }
 
+    @Get(':_id')
+    async getById(@Param('_id') id: string){
+        const customer = await this._customerDao.getById(id);
+        console.log("Get customer by id: ", customer)
+
+        return customer;
+    }
     @Put()
     async edit(@Body() customer: Customer){
         return await this._customerDao.edit(customer);

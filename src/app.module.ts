@@ -6,7 +6,7 @@ import { APP_PIPE } from '@nestjs/core';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { CustomersModule } from './modules/customers/customers.module';
-
+import { AddressModule } from './modules/address/address.module';
 
 @Module({
   imports: [
@@ -17,6 +17,7 @@ import { CustomersModule } from './modules/customers/customers.module';
     UsersModule,
     AuthModule,
     CustomersModule,
+    AddressModule,
   ],  
   providers: [
      // Adiciona o pipe de validação em um nível global.
@@ -25,8 +26,9 @@ import { CustomersModule } from './modules/customers/customers.module';
     {
       provide: APP_PIPE,
       useClass: ValidationPipe
-    },    
+    },
+         
     
-  ],
+  ], 
 })
 export class AppModule { }

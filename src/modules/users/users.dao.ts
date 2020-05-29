@@ -61,7 +61,8 @@ export class UsersDao {
             
             return user;
         } catch (e) {
-            return { error: 'Usuário inixistente.' }
+            console.log(e);
+            throw new HttpException('Verifique sua conexao com o Banco de Dados.', HttpStatus.INTERNAL_SERVER_ERROR)    
         }
     }
 
@@ -70,6 +71,12 @@ export class UsersDao {
     }
 
     async getUserByEmail(email: string): Promise<User> {
+        try {
+
+        }catch (e){
+
+        }
+
         return await this.UsersCollection.findOne({email: email});   
     }
 
@@ -104,7 +111,7 @@ export class UsersDao {
             return await this.UsersCollection.find().toArray();
         } catch (e){
             console.error(e);
-            throw new HttpException ({status: '', error: ''}, HttpStatus.BAD_REQUEST);
+            throw new HttpException('Verifique sua conexao com o Banco de Dados.', HttpStatus.INTERNAL_SERVER_ERROR)        
         }
         
     }
@@ -117,7 +124,7 @@ export class UsersDao {
             return await this.UsersCollection.find({'lastUpdate' : { $gt : lastUpdate }}).toArray();
         } catch (e){
             console.error(e);
-            throw new HttpException ({status: '', error: ''}, HttpStatus.BAD_REQUEST);
+            throw new HttpException('Verifique sua conexao com o Banco de Dados.', HttpStatus.INTERNAL_SERVER_ERROR)        
         }
         
     }
@@ -126,7 +133,8 @@ export class UsersDao {
         try {
             this.UsersCollection.insertMany(users);
         } catch (e) {
-            return {error: e};
+            console.error(e);
+            throw new HttpException('Verifique sua conexao com o Banco de Dados.', HttpStatus.INTERNAL_SERVER_ERROR)        
         }
 
     }
@@ -135,7 +143,8 @@ export class UsersDao {
         try {
             this.UsersCollection.deleteMany(users);
         } catch (e) {
-            return {error: e};
+            console.error(e);
+            throw new HttpException('Não foi possível excluir os registros, consulte o log para mais informações.', HttpStatus.INTERNAL_SERVER_ERROR)        
         }
 
     }

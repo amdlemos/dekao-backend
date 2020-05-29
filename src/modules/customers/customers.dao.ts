@@ -45,6 +45,15 @@ export class CustomersDao {
         }
     }
 
+    async getById(id): Promise<Customer>{
+        try{
+            return await this.CustomersCollection.findOne({_id: new ObjectId(id)})
+        }catch(e){
+            console.error(e);
+            throw new HttpException(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     async edit(customer: Customer) {
         try {
             return await this.CustomersCollection.updateOne(
@@ -53,19 +62,19 @@ export class CustomersDao {
                     $set: {
                        name: customer.name,
                        fantasyName: customer.fantasyName,                       
-                       lastUpdate: customer.lastUpdate,
+                       lastUpdate: new Date,
                        email: customer.email,
                        subscription: customer.subscription,
                        phone: customer.phone,                       
                        sellerCode: customer.sellerCode,
                        sellerName: customer.sellerName,
-                       'address1th.zipcode': customer.address1th.zipcode,
-                       'address1th.street': customer.address1th.street,
-                       'address1th.state_code': customer.address1th.state_code,
-                       'address1th.number': customer.address1th.number,
-                       'address1th.neighborhood': customer.address1th.neighborhood,
-                       'address1th.complement': customer.address1th.complement,
-                       'address1th.city_code': customer.address1th.city_code,
+                       'address.zipcode': customer.address.zipcode,
+                       'address.street': customer.address.street,
+                       'address.state_code': customer.address.state_code,
+                       'address.number': customer.address.number,
+                       'address.neighborhood': customer.address.neighborhood,
+                       'address.complement': customer.address.complement,
+                       'address.city_code': customer.address.city_code,
                     }
                 }
             )

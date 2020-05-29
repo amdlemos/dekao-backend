@@ -15,7 +15,7 @@ export class Customer {
     @ApiProperty()
     email: string;
     @ApiProperty()    
-    address1th: Address;            
+    address: Address;            
     // contacts: Contact[];    
     // otherAddress: Address[];    
     // legalData: LegalData;
