@@ -6,7 +6,7 @@ import { AppModule } from './app.module';
 
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const port = process.env.PORT_APP;
+const port = process.env.PORT;
 
 
 async function bootstrap() {
